@@ -97,6 +97,6 @@ const styles = StyleSheet.create({
   },
   messageValid: {
     color: 'green',
-    fontSize: 30
+    fontSize: 40
   },
 });
