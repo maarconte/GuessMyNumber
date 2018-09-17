@@ -36,11 +36,6 @@ export default class App extends React.Component {
           keyboardType="numeric"
           value={this.state.number}
         />
-{/*         <Button
-        style={styles.button}
-        title={'Envoyer'}
-        onPress={()=> {this.guess()}}
-        /> */}
         <TouchableOpacity
         style={styles.button}
         onPress={()=> {this.guess()}}
