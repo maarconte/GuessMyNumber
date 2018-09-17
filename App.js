@@ -15,7 +15,9 @@ export default class App extends React.Component {
   guess(){
     let message = (this.state.number == this.state.random) ? 'Gagné !' : (this.state.number > this.state.random) ? 'Plus bas ...' : 'Plus haut ...' ;
     this.setState({message: message});
+   if (this.state.number != this.state.random) {
     this.setState({number: ''});
+   }
   }
 
   reload() {
