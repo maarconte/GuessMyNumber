@@ -8,9 +8,16 @@ export default class App extends React.Component {
     this.state = {
       message :'',
       number: 0,
-      // Génère un nombre entier entre 1 ert 100
-      random: Math.floor(Math.random() * (100 - 1) + 1)
+      limit: 100,
+      random: 0,
+      tries: 0,
+
     }
+  }
+
+  componentDidMount(){
+    // Génère un nombre entier entre 1 et 100
+    this.setState({random: Math.floor(Math.random() * (this.state.limit - 1) + 1)})
   }
 
   guess(){
@@ -20,30 +27,55 @@ export default class App extends React.Component {
     this.setState({message: message});
     // Vider l'état de number quand ce n'est pas la bonne réponse
    if (this.state.number != this.state.random) {
-    this.setState({number: ''});
+    this.setState(prevState => ({number: '', tries: prevState.tries + 1 }));
    }
   }
 
   reload() {
-    this.setState({random: Math.floor(Math.random() * (100 - 1) + 1)});
+    this.setState({random: Math.floor(Math.random() * (100 - 1) + 1), number: 0,  message: ''});
   }
 
   render() {
     return (
+      // Choisir la limite
       <View style={styles.container}>
-      <Text style={styles.h1}>Devine un nombre entre 1 et 100</Text>
+             <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.setState({limit: 100})}}
+        >
+        <Text>100</Text>
+        </TouchableOpacity>
+             <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.setState({limit: 1000})}}
+        >
+        <Text>1000</Text>
+        </TouchableOpacity>
+             <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.setState({limit: 10000})}}
+        >
+        <Text>10000</Text>
+        </TouchableOpacity>
+      <Text style={styles.h1}>Devine un nombre entre 1 et {this.state.limit}</Text>
       <Text style={styles.number}>{this.state.number}</Text>
+      <Text style={{color: 'red'}}>{(this.state.number > this.state.limit) ? 'Entrer un nombre plus petit ou égale à ' + this.state.limit : ''}</Text>
       <Text style={[styles.message,
-        // La couleur du message est rouge en cas d'erreur et vert quand c'est gagné
+        // La couleur du message est rouge en cas d'erreur et vert quand on a gagné
         this.state.message == 'Gagné !' ? styles.messageValid : styles.messageError]}>
         {this.state.message}
       </Text>
+
+      <Text>
+      {this.state.message == 'Gagné !' ? 'Il vous a fallu '+ this.state.tries +' essais' : ''}</Text>
         <TextInput
-          style={styles.input}
           // Mettre à jour de l'état number et vider l'input quand ce n'est pas la bonne réponse
+          style={styles.input}
           onChangeText={(number) => this.setState({number, message: ''})}
           keyboardType="numeric"
-          value={this.state.number}
+          max={this.state.limit}
+          // Transformer un int en string
+          value={this.state.number ? String(this.state.number) : null}
         />
         <TouchableOpacity
         style={styles.button}
