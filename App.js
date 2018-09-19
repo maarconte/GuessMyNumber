@@ -8,20 +8,31 @@ export default class App extends React.Component {
     this.state = {
       message :'',
       number: 0,
-      random: Math.floor(Math.random() * (100 - 1) + 1)
+      limit: 100,
+      random: 0,
+      tries: 0,
+
     }
   }
 
+  componentDidMount(){
+    // Génère un nombre entier entre 1 et 100
+    this.setState({random: Math.floor(Math.random() * (this.state.limit - 1) + 1)})
+  }
+
   guess(){
+    // Le message change en fonction de la réponse
     let message = (this.state.number == this.state.random) ? 'Gagné !' : (this.state.number > this.state.random) ? 'Plus bas ...' : 'Plus haut ...' ;
+    // Mise à jour de l'état du component.
     this.setState({message: message});
+    // Vider l'état de number quand ce n'est pas la bonne réponse
    if (this.state.number != this.state.random) {
-    this.setState({number: ''});
+    this.setState(prevState => ({number: '', tries: prevState.tries + 1 }));
    }
   }
 
   reload() {
-    this.setState({random: Math.floor(Math.random() * (100 - 1) + 1)});
+    this.setState({random: Math.floor(Math.random() * (100 - 1) + 1), number: 0,  message: ''});
   }
 
   
@@ -31,40 +42,58 @@ export default class App extends React.Component {
       uri: 'http://www.designbolts.com/wp-content/uploads/2016/08/Nightfall-iPhone-6S-Plus-Background-1082-x-1920-px.jpg'
     };
     return (
+      // Choisir la limite
       <View style={styles.container}>
-      <Image style={styles.image} source={pic}/>
-          <View style={styles.containerInfo}> 
-              <Text style={styles.h1}>Devine un nombre entre 1 et 100</Text>
-             
-              <View style={styles.containerNumber}>
-                <Text style={styles.number}>{this.state.number}</Text>
-              </View>
-             
-              <Text style={[styles.message, this.state.message == 'Gagné !' ? styles.messageValid : styles.messageError]}>{this.state.message}</Text>
-                
-              
-                <TextInput
-                  style={styles.input}
-                  onChangeText={(number) => this.setState({number, message: ''})}
-                  keyboardType="numeric"
-                  value={this.state.number}
-                />
-                
-                <TouchableOpacity
-                style={styles.button}
-                onPress={()=> {this.guess()}}
-                >               
-                <Text style={styles.textbutton}>Envoyer</Text>
-                </TouchableOpacity>
-                
-                
-                <TouchableOpacity
-                style={[styles.buttonRefresh]}
-                onPress={()=> {this.reload()}}
-                >
-                <Text style={styles.textbutton1}>Refresh</Text>
-                </TouchableOpacity>
+             <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.setState({limit: 100})}}
+        >
+        <Text>100</Text>
+        </TouchableOpacity>
+             <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.setState({limit: 1000})}}
+        >
+        <Text>1000</Text>
+        </TouchableOpacity>
+             <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.setState({limit: 10000})}}
+        >
+        <Text>10000</Text>
+        </TouchableOpacity>
+      <Text style={styles.h1}>Devine un nombre entre 1 et {this.state.limit}</Text>
+      <Text style={styles.number}>{this.state.number}</Text>
+      <Text style={{color: 'red'}}>{(this.state.number > this.state.limit) ? 'Entrer un nombre plus petit ou égale à ' + this.state.limit : ''}</Text>
+      <Text style={[styles.message,
+        // La couleur du message est rouge en cas d'erreur et vert quand on a gagné
+        this.state.message == 'Gagné !' ? styles.messageValid : styles.messageError]}>
+        {this.state.message}
+      </Text>
 
+      <Text>
+      {this.state.message == 'Gagné !' ? 'Il vous a fallu '+ this.state.tries +' essais' : ''}</Text>
+        <TextInput
+          // Mettre à jour de l'état number et vider l'input quand ce n'est pas la bonne réponse
+          style={styles.input}
+          onChangeText={(number) => this.setState({number, message: ''})}
+          keyboardType="numeric"
+          max={this.state.limit}
+          // Transformer un int en string
+          value={this.state.number ? String(this.state.number) : null}
+        />
+        <TouchableOpacity
+        style={styles.button}
+        onPress={()=> {this.guess()}}
+        >
+        <Text>Envoyer</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+        style={[styles.button, styles.buttonRefresh]}
+        onPress={()=> {this.reload()}}
+        >
+        <Text>Refresh</Text>
+        </TouchableOpacity>
 
                 </View>
       </View>
