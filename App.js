@@ -35,7 +35,7 @@ export default class App extends React.Component {
     this.setState({random: Math.floor(Math.random() * (100 - 1) + 1), number: 0,  message: ''});
   }
 
-  
+
 
   render() {
     let pic = {
@@ -94,8 +94,6 @@ export default class App extends React.Component {
         >
         <Text>Refresh</Text>
         </TouchableOpacity>
-
-                </View>
       </View>
     );
   }
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   button: {
-    width: '93%', 
+    width: '93%',
     margin: 10,
     backgroundColor: '#FF9200',
     padding: 20,
@@ -130,7 +128,7 @@ const styles = StyleSheet.create({
 
   buttonRefresh: {
     borderColor: '#fff',
-    width: '93%', 
+    width: '93%',
     margin: 10,
     padding: 20,
     alignItems: 'center',
@@ -168,18 +166,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#263238',
     width: '80%',
     padding: 20,
-    borderRadius: 10, 
-    shadowOpacity: 0.3, 
-    shadowRadius: 3,   
+    borderRadius: 10,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
 
   image:{
     resizeMode: 'cover',
-    width: '100%', 
+    width: '100%',
     height: '100%',
 },
 containerNumber:{
-  // width: 70, 
+  // width: 70,
   // height: 70,
   // backgroundColor: '#FFF',
   // color: '#fff',
