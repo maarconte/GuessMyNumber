@@ -36,7 +36,7 @@ export default class App extends React.Component {
     this.setState({random: Math.floor(Math.random() * (100 - 1) + 1), number: 0,  message: ''});
   }
 
-  
+
 
   render() {
     let pic = {
@@ -118,12 +118,6 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
 
   containerinfo:{
     backgroundColor: '#fff',
@@ -219,13 +213,11 @@ const styles = StyleSheet.create({
 
   containerInfo:{
     position: 'absolute',
-    // backgroundColor: 'rgba(0,0,0,0.6)',
-    // backgroundColor: '#263238',
     width: '80%',
     padding: 20,
-    borderRadius: 10, 
-    shadowOpacity: 0.3, 
-    shadowRadius: 3,   
+    borderRadius: 10,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
 
   imgBackground:{
